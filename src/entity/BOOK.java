@@ -10,28 +10,20 @@ import java.util.Scanner;
 
 public class BOOK {             // Book在jdk8中有定义，考虑到重名会有不便所以不用
     private String ISBN;        //tool.Isbn
-    private String title;       //书名
-    private String[] author;    //作者
+    private String title="";       //书名
+    private String[] author={""};    //作者
     private BigDecimal price;   //价格
-    private int inventory;  //库存
-    private int totalNum;   //上限总量
+    private int inventory=0;  //库存
+    private int totalNum=0;   //上限总量
 
     public String getISBN() {
         return this.ISBN;
     }
 
-    public void setISBN(String ISBNstr) {
+    public void setISBN(String ISBNstr) throws BOOKException{
         ISBNstr = ISBNstr.replace(" ", "").replace("-", "");
-        while(!Isbn.checkIsbn(ISBNstr))
-            try {
-                throw new Exception();
-            }
-            catch (Exception e){
-                System.out.println("ISBN不合法！请输入合法值：");
-                Scanner sc=new Scanner(System.in);
-                ISBNstr=sc.nextLine().replace(" ", "").replace("-", "");
-                sc.close();
-            }
+        if(!Isbn.checkIsbn(ISBNstr))
+                throw new BOOKException("ISBN");
         this.ISBN=ISBNstr;
     }
 
@@ -59,17 +51,15 @@ public class BOOK {             // Book在jdk8中有定义，考虑到重名会�
         return price;
     }
 
-    public void setPrice(String price) {
-        while (Double.parseDouble(price)<0)
-            try{
-                throw new Exception();
-            }
-            catch(Exception e){
+    public void setPrice(String price) throws BOOKException{
+        if(Double.parseDouble(price)<0)
+                throw new BOOKException("Price");
+            /*catch(Exception e){
                 System.out.println("价格不能小于0,请重新输入：");
                 Scanner sc=new Scanner(System.in);
                 System.out.println("price:");price=sc.nextLine();
                 sc.close();
-            }
+            }*/
         this.price = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP); //保留两位小数（到分），四舍五入
     }
 
@@ -77,17 +67,16 @@ public class BOOK {             // Book在jdk8中有定义，考虑到重名会�
         return inventory;
     }
 
-    public void setInventory(int inventory) {
-        while (inventory<0)
-            try{
-                throw new Exception();
-            }
+    public void setInventory(int inventory) throws BOOKException{
+        if(inventory<0)
+                throw new BOOKException("Inventory");
+            /*
             catch(Exception e){
                 System.out.println("库存不能小于0,请重新输入：");
                 Scanner sc=new Scanner(System.in);
                 System.out.println("inventory:");inventory=sc.nextInt();
                 sc.close();
-            }
+            }*/
         this.inventory = inventory;
     }
 
@@ -95,17 +84,16 @@ public class BOOK {             // Book在jdk8中有定义，考虑到重名会�
         return totalNum;
     }
 
-    public void setTotalNum(int totalNum) {
-        while (totalNum<0)
-            try{
-                throw new Exception();
-            }
+    public void setTotalNum(int totalNum) throws BOOKException{
+        if (totalNum<0)
+                throw new BOOKException("TotalNum");
+            /*
             catch(Exception e){
                 System.out.println("库存上限不能小于0,请重新输入：");
                 Scanner sc=new Scanner(System.in);
                 System.out.println("totalNum:");totalNum=sc.nextInt();
                 sc.close();
-            }
+            }*/
         this.totalNum = totalNum;
     }
 
@@ -122,12 +110,12 @@ public class BOOK {             // Book在jdk8中有定义，考虑到重名会�
     }
 
     public BOOK(String ISBNstr, String title, String[] author, String price) {
-        this.setISBN(ISBNstr);
+       /* this.setISBN(ISBNstr);
         this.setTitle(title);
         this.setAuthor(author);
         this.setPrice(price);
         this.setInventory(0);
-        this.setTotalNum(0);
+        this.setTotalNum(0);*/
     }
 
     public void print(){
