@@ -1,6 +1,7 @@
 package test;
 
-import entity.BOOK;
+import entity.book.BOOK;
+import entity.book.BOOKException;
 import tool.Isbn;
 
 import java.util.Scanner;
@@ -28,11 +29,21 @@ public class BookTest {
         String isbn;
         while(true){
             isbn=sc.nextLine();
-            BOOK book=new BOOK(isbn, title, author, price);
-            testISBN(book);
-            testPrint(book);
-            Isbn newIsbn=new Isbn(book.getISBN());
-            print(newIsbn.toString());
+            BOOK book=null;
+            try {
+                book=new BOOK(isbn, title, author, price);
+            }
+            catch (BOOKException e){
+
+            }
+            finally {
+                if(book!=null){
+                    testISBN(book);
+                    testPrint(book);
+                    Isbn newIsbn=new Isbn(book.getISBN());
+                    print(newIsbn.toString());
+                }
+            }
         }
     }
 }

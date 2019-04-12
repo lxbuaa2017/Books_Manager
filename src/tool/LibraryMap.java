@@ -1,10 +1,9 @@
 package tool;
 
-import dao.Library;
-import entity.BOOK;
+import daoImpl.Library;
+import entity.book.BOOK;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 public class LibraryMap<K,V> extends HashMap<K,V>{

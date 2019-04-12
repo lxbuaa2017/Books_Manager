@@ -1,17 +1,14 @@
-package dao;
+package daoImpl;
 
-import entity.BOOK;
+import entity.book.BOOK;
+import entity.book.BOOKException;
 import tool.Isbn;
 import tool.LibraryMap;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 public class Library {
     public static LibraryMap<Isbn,BOOK> libraryMap=new LibraryMap<>();//用于ISBN快速索引
     public static Vector<BOOK> library=new Vector<>();//用于关键词模糊查找
-    public Library() {
-    }
     public static BOOK getBookByIsbn(Isbn isbn){
             try {
                 if(!Isbn.checkIsbn(isbn.toString()))
@@ -27,7 +24,7 @@ public class Library {
         return libraryMap.get(keyword);     //已overload
     }
 
-    public static void addBook(BOOK book){      //book的构造方法和setter方法已对数据合法作保证
+    public static void addBook(BOOK book)throws BOOKException {      //book的构造方法和setter方法已对数据合法作保证
         Isbn isbn=new Isbn(book.getISBN());
         if(!libraryMap.containsKey(isbn)){
             book.setTotalNum(1);book.setInventory(1);       //该书原来没有，故刚加入时总数和可借数都为1
@@ -66,5 +63,16 @@ public class Library {
              }
          library.add(book);
          return true;
+    }
+    public static boolean deleteBook(String ISBN) throws BOOKException{
+        Isbn isbn=new Isbn(ISBN);
+        BOOK book=Library.getBookByIsbn(isbn);
+        if(book==null)
+            return false;
+        else {
+            libraryMap.remove(isbn);
+            library.remove(book);
+            return true;
+        }
     }
 }

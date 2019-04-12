@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Isbn {
     private String isbn;
     public static boolean checkIsbn(String isbn){
-        isbn=isbn.replace(" ", "");
+        isbn=isbn.replace(" ", "").replace("-", "");
         int len=isbn.length();
         if (len>17)
             return false;
@@ -14,10 +14,8 @@ public class Isbn {
             if(Character.isDigit(isbn.charAt(i))||isbn.charAt(i)=='X'){
                 isbnBuf.append(isbn.charAt(i));
             }
-            else{
-                if(isbn.charAt(i)!='-')
-                    return false;
-            }
+            else
+            return false;
         }
         isbn=isbnBuf.toString();
         if(isbn.length()==10){
@@ -52,19 +50,16 @@ public class Isbn {
     }
 
     public Isbn(String isbn) {
+        isbn=isbn.replace(" ", "").replace("-", "");
+        if(checkIsbn(isbn))
         this.isbn = isbn;
+        else
+            this.isbn=null;
     }
 
     @Override
     public String toString() {
-        StringBuffer buf=new StringBuffer(this.isbn.trim());
-        int i=0;
-        while(i<buf.length()){
-            if(buf.charAt(i)=='-')
-                buf.deleteCharAt(i);
-            else i++;
-        }
-        return buf.toString();
+        return this.isbn;
     }
 
     @Override

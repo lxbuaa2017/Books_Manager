@@ -1,12 +1,12 @@
-package entity;
+package entity.book;
 
+import daoImpl.Library;
 import tool.Isbn;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class BOOK {             // Book在jdk8中有定义，考虑到重名会有不便所以不用
     private String ISBN;        //tool.Isbn
@@ -15,7 +15,6 @@ public class BOOK {             // Book在jdk8中有定义，考虑到重名会�
     private BigDecimal price;   //价格
     private int inventory=0;  //库存
     private int totalNum=0;   //上限总量
-
     public String getISBN() {
         return this.ISBN;
     }
@@ -109,13 +108,15 @@ public class BOOK {             // Book在jdk8中有定义，考虑到重名会�
                 '}';
     }
 
-    public BOOK(String ISBNstr, String title, String[] author, String price) {
-       /* this.setISBN(ISBNstr);
+    public BOOK(String ISBNstr, String title, String[] author, String price) throws BOOKException{
+        if(Library.getBookByIsbn(new Isbn(ISBNstr))!=null)
+            throw new BOOKException("ISBN重复，书籍已存在！");
+        this.setISBN(ISBNstr);
         this.setTitle(title);
         this.setAuthor(author);
         this.setPrice(price);
         this.setInventory(0);
-        this.setTotalNum(0);*/
+        this.setTotalNum(0);
     }
 
     public void print(){
