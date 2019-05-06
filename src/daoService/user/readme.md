@@ -1,0 +1,1 @@
+鉴于manager并不多，因此updateManager方法是不必要的，通过超级管理员的deleteManager和addManager进行操作即可。
